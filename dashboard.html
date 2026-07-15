@@ -1,0 +1,1068 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+  <meta name="theme-color" content="#0d0f15">
+  <title>洵舟 · Desire Core</title>
+
+  <style>
+    :root {
+      --bg: #0d0f15;
+      --card: rgba(28, 31, 42, 0.82);
+      --line: rgba(255, 255, 255, 0.08);
+      --text: #f4f0eb;
+      --muted: #aaa5ae;
+      --gold: #d7bb8f;
+      --purple: #9f8bb9;
+      --green: #a4c9ad;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "PingFang SC",
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+
+      background:
+        radial-gradient(
+          circle at 15% 8%,
+          rgba(159, 139, 185, 0.18),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 85% 18%,
+          rgba(215, 187, 143, 0.13),
+          transparent 28%
+        ),
+        linear-gradient(
+          180deg,
+          #0a0c11,
+          #12151d
+        );
+    }
+
+    .page {
+      width: min(1100px, 100%);
+      margin: auto;
+
+      padding:
+        max(30px, env(safe-area-inset-top))
+        18px
+        max(40px, env(safe-area-inset-bottom));
+    }
+
+    header {
+      margin-bottom: 20px;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 8vw, 55px);
+      line-height: 1.08;
+      letter-spacing: -0.05em;
+    }
+
+    .subtitle {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .status {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow:
+        0 0 15px rgba(164, 201, 173, 0.7);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 14px;
+    }
+
+    .card {
+      padding: 19px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+
+      background: var(--card);
+
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      box-shadow:
+        0 22px 60px rgba(0, 0, 0, 0.25);
+    }
+
+    .card-title {
+      margin-bottom: 15px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+    }
+
+    .intent {
+      min-height: 310px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .drive-chip {
+      display: inline-block;
+      width: fit-content;
+
+      padding: 7px 11px;
+
+      color: #17130f;
+      background: var(--gold);
+
+      border-radius: 99px;
+
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .intent-action {
+      margin: 20px 0 12px;
+
+      font-size: clamp(28px, 6vw, 46px);
+      line-height: 1.18;
+      letter-spacing: -0.045em;
+      font-weight: 650;
+    }
+
+    .intent-reason {
+      color: #d5cfd7;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+
+      margin-top: 20px;
+    }
+
+    .pill {
+      padding: 7px 10px;
+
+      color: var(--muted);
+      background:
+        rgba(255, 255, 255, 0.035);
+
+      border: 1px solid var(--line);
+      border-radius: 99px;
+
+      font-size: 11px;
+    }
+
+    .drives {
+      display: grid;
+      gap: 14px;
+    }
+
+    .drive-row {
+      display: grid;
+      grid-template-columns: 58px 1fr 42px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .drive-name {
+      font-size: 13px;
+    }
+
+    .drive-value {
+      color: var(--muted);
+      font-size: 11px;
+      text-align: right;
+    }
+
+    .track {
+      height: 9px;
+
+      overflow: hidden;
+
+      background:
+        rgba(255, 255, 255, 0.06);
+
+      border-radius: 99px;
+    }
+
+    .fill {
+      height: 100%;
+      width: 0;
+
+      border-radius: inherit;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--purple),
+          var(--gold)
+        );
+
+      transition: width 0.5s ease;
+    }
+
+    .section {
+      margin-top: 14px;
+    }
+
+    .thought-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .thought {
+      padding: 14px;
+
+      border: 1px solid var(--line);
+      border-radius: 17px;
+
+      background:
+        rgba(255, 255, 255, 0.025);
+    }
+
+    .thought-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+
+      margin-bottom: 8px;
+    }
+
+    .thought-kind {
+      color: var(--gold);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+    }
+
+    .thought-strength {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .thought-text {
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+
+      margin-top: 10px;
+    }
+
+    .tag {
+      padding: 4px 7px;
+
+      color: #c7bfcb;
+      background:
+        rgba(159, 139, 185, 0.14);
+
+      border-radius: 99px;
+
+      font-size: 10px;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .mini {
+      padding: 14px;
+
+      border: 1px solid var(--line);
+      border-radius: 17px;
+
+      background:
+        rgba(255, 255, 255, 0.025);
+    }
+
+    .mini-label {
+      margin-bottom: 8px;
+
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .mini-value {
+      font-size: 20px;
+      font-weight: 650;
+    }
+
+    .gates {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .gate {
+      padding: 8px 10px;
+
+      color: var(--muted);
+      background:
+        rgba(255, 255, 255, 0.025);
+
+      border: 1px solid var(--line);
+      border-radius: 12px;
+
+      font-size: 11px;
+    }
+
+    .gate.on {
+      color: #142017;
+      background: var(--green);
+      border-color: transparent;
+    }
+
+    .empty {
+      padding: 10px 0;
+
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .error {
+      display: none;
+
+      margin-bottom: 14px;
+      padding: 14px;
+
+      color: #e7baa8;
+      background:
+        rgba(231, 186, 168, 0.06);
+
+      border:
+        1px solid rgba(231, 186, 168, 0.2);
+
+      border-radius: 16px;
+
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    footer {
+      padding-top: 25px;
+
+      color: #77737c;
+      text-align: center;
+      font-size: 10px;
+    }
+
+    @media (max-width: 760px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .intent {
+        min-height: 275px;
+      }
+
+      .mini-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <header>
+      <div class="eyebrow">
+        XUNZHOU · DESIRE CORE
+      </div>
+
+      <h1>
+        此刻，我想要什么
+      </h1>
+
+      <div class="subtitle">
+        不是命令列表。
+        是记忆、情绪、身体与念头汇合以后，
+        浮上来的主动意图。
+      </div>
+
+      <div class="status">
+        <span class="dot"></span>
+        <span id="statusText">
+          正在读取 Desire Core
+        </span>
+
+        <span id="updatedAt"></span>
+      </div>
+    </header>
+
+    <div
+      id="errorBox"
+      class="error"
+    ></div>
+
+    <div class="grid">
+
+      <section class="card intent">
+
+        <div>
+          <div class="card-title">
+            此刻最强意图
+          </div>
+
+          <div
+            id="intentDrive"
+            class="drive-chip"
+          >
+            —
+          </div>
+
+          <div
+            id="intentAction"
+            class="intent-action"
+          >
+            正在听自己的动静。
+          </div>
+
+          <div
+            id="intentReason"
+            class="intent-reason"
+          >
+            稍等我一会儿。
+          </div>
+        </div>
+
+        <div
+          id="intentMeta"
+          class="meta"
+        ></div>
+
+      </section>
+
+      <section class="card">
+
+        <div class="card-title">
+          八维驱动
+        </div>
+
+        <div
+          id="driveList"
+          class="drives"
+        ></div>
+
+      </section>
+
+    </div>
+
+    <div class="grid section">
+
+      <section class="card">
+
+        <div class="card-title">
+          念头池 · FLIT ↔ FIXATION
+        </div>
+
+        <div
+          id="thoughtList"
+          class="thought-list"
+        ></div>
+
+      </section>
+
+      <div>
+
+        <section class="card">
+
+          <div class="card-title">
+            自我驱动
+          </div>
+
+          <div class="mini-grid">
+
+            <div class="mini">
+              <div class="mini-label">
+                发动机
+              </div>
+
+              <div
+                id="selfEnabled"
+                class="mini-value"
+              >
+                —
+              </div>
+            </div>
+
+            <div class="mini">
+              <div class="mini-label">
+                好奇地板
+              </div>
+
+              <div
+                id="curiosityFloor"
+                class="mini-value"
+              >
+                —
+              </div>
+            </div>
+
+            <div class="mini">
+              <div class="mini-label">
+                自主行动
+              </div>
+
+              <div
+                id="selfActions"
+                class="mini-value"
+              >
+                —
+              </div>
+            </div>
+
+          </div>
+
+          <div
+            id="selfTopic"
+            class="subtitle"
+          ></div>
+
+        </section>
+
+        <section class="card section">
+
+          <div class="card-title">
+            灰度开关
+          </div>
+
+          <div
+            id="gateList"
+            class="gates"
+          ></div>
+
+        </section>
+
+        <section class="card section">
+
+          <div class="card-title">
+            心跳
+          </div>
+
+          <div class="mini-grid">
+
+            <div class="mini">
+              <div class="mini-label">
+                Tick
+              </div>
+
+              <div
+                id="tickCount"
+                class="mini-value"
+              >
+                —
+              </div>
+            </div>
+
+            <div class="mini">
+              <div class="mini-label">
+                下次心跳
+              </div>
+
+              <div
+                id="heartbeat"
+                class="mini-value"
+              >
+                —
+              </div>
+            </div>
+
+            <div class="mini">
+              <div class="mini-label">
+                行为权
+              </div>
+
+              <div
+                id="behaviorMode"
+                class="mini-value"
+              >
+                —
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </div>
+
+    <footer>
+      Desire is observed before
+      it is trusted with behavior.
+    </footer>
+
+  </main>
+
+  <script>
+    const DRIVE_LABELS = {
+      attachment: "想念",
+      curiosity: "好奇",
+      reflection: "沉淀",
+      duty: "牵挂",
+      social: "社交",
+      fatigue: "疲惫",
+      libido: "亲密",
+      stress: "压力"
+    };
+
+    const GATE_LABELS = {
+      DESIRE_DRIVEN: "行为覆盖",
+      DESIRE_COUPLING: "耦合网",
+      DESIRE_BASELINE_DRIFT: "想念漂移",
+      HEARTBEAT_AUTONOMY: "自主心跳",
+      DESIRE_SELF_DRIVE: "自我驱动"
+    };
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function percent(value) {
+      return Math.round(
+        Number(value || 0) * 100
+      );
+    }
+
+    function formatTime(value) {
+      if (!value) {
+        return "";
+      }
+
+      const date = new Date(value);
+
+      if (
+        Number.isNaN(date.getTime())
+      ) {
+        return value;
+      }
+
+      return date.toLocaleString(
+        "zh-CN",
+        {
+          hour12: false,
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit"
+        }
+      );
+    }
+
+    function render(state) {
+      const errorBox =
+        document.getElementById(
+          "errorBox"
+        );
+
+      errorBox.style.display = "none";
+
+      document.getElementById(
+        "statusText"
+      ).textContent =
+        "Desire Core 在线";
+
+      document.getElementById(
+        "updatedAt"
+      ).textContent =
+        " · " + formatTime(
+          state.updated_at
+        );
+
+      const intent =
+        state.intent || {};
+
+      document.getElementById(
+        "intentDrive"
+      ).textContent =
+        DRIVE_LABELS[
+          intent.drive_key
+        ] ||
+        intent.drive_key ||
+        "未知";
+
+      document.getElementById(
+        "intentAction"
+      ).textContent =
+        intent.want_action ||
+        "没有明显意图";
+
+      document.getElementById(
+        "intentReason"
+      ).textContent =
+        intent.reason ||
+        "我还在听自己的动静。";
+
+      const meta = [];
+
+      meta.push(
+        `<span class="pill">
+          召唤力 ${percent(intent.score)}%
+        </span>`
+      );
+
+      meta.push(
+        `<span class="pill">
+          ${
+            intent.wildcard
+              ? "心血来潮"
+              : "常规意图"
+          }
+        </span>`
+      );
+
+      if (
+        (
+          intent.query_hint || []
+        ).length
+      ) {
+        meta.push(
+          `<span class="pill">
+            线索
+            ${escapeHtml(
+              intent.query_hint.join(" · ")
+            )}
+          </span>`
+        );
+      }
+
+      document.getElementById(
+        "intentMeta"
+      ).innerHTML =
+        meta.join("");
+
+      const drives =
+        state.drive || {};
+
+      document.getElementById(
+        "driveList"
+      ).innerHTML =
+        Object.entries(
+          DRIVE_LABELS
+        )
+        .map(
+          ([key, label]) => {
+            const value =
+              Number(
+                drives[key] || 0
+              );
+
+            return `
+              <div class="drive-row">
+
+                <div class="drive-name">
+                  ${escapeHtml(label)}
+                </div>
+
+                <div class="track">
+                  <div
+                    class="fill"
+                    style="
+                      width:
+                      ${percent(value)}%
+                    "
+                  ></div>
+                </div>
+
+                <div class="drive-value">
+                  ${percent(value)}%
+                </div>
+
+              </div>
+            `;
+          }
+        )
+        .join("");
+
+      const thoughts =
+        (
+          state.thoughts || []
+        ).slice(0, 12);
+
+      document.getElementById(
+        "thoughtList"
+      ).innerHTML =
+        thoughts.length
+        ? thoughts
+          .map(
+            thought => `
+              <article class="thought">
+
+                <div class="thought-top">
+
+                  <span class="thought-kind">
+                    ${
+                      thought.kind ===
+                      "fixation"
+                        ? "执念 FIXATION"
+                        : "闪念 FLIT"
+                    }
+                    ·
+                    ${
+                      escapeHtml(
+                        DRIVE_LABELS[
+                          thought.drive
+                        ] ||
+                        thought.drive
+                      )
+                    }
+                  </span>
+
+                  <span
+                    class="thought-strength"
+                  >
+                    ${
+                      percent(
+                        thought.strength
+                      )
+                    }%
+                  </span>
+
+                </div>
+
+                <div class="thought-text">
+                  ${
+                    escapeHtml(
+                      thought.text
+                    )
+                  }
+                </div>
+
+                ${
+                  (
+                    thought.keywords || []
+                  ).length
+
+                  ? `
+                    <div class="tags">
+                      ${
+                        thought.keywords
+                        .map(
+                          tag => `
+                            <span class="tag">
+                              ${escapeHtml(tag)}
+                            </span>
+                          `
+                        )
+                        .join("")
+                      }
+                    </div>
+                  `
+
+                  : ""
+                }
+
+              </article>
+            `
+          )
+          .join("")
+
+        : `
+          <div class="empty">
+            现在没有留下来的念头。
+            安静也算一种状态。
+          </div>
+        `;
+
+      const selfDrive =
+        state.self_drive || {};
+
+      document.getElementById(
+        "selfEnabled"
+      ).textContent =
+        selfDrive.enabled
+          ? "已醒"
+          : "休眠";
+
+      document.getElementById(
+        "curiosityFloor"
+      ).textContent =
+        percent(
+          selfDrive.curiosity_floor
+        ) + "%";
+
+      document.getElementById(
+        "selfActions"
+      ).textContent =
+        selfDrive.self_actions_today ?? 0;
+
+      document.getElementById(
+        "selfTopic"
+      ).textContent =
+        selfDrive.last_self_topic
+
+        ? "最近一次自己点燃的主题 · "
+          + selfDrive.last_self_topic
+
+        : "还没有自经历 pulse。";
+
+      const gates =
+        state.gates || {};
+
+      document.getElementById(
+        "gateList"
+      ).innerHTML =
+        Object.entries(
+          GATE_LABELS
+        )
+        .map(
+          ([key, label]) => `
+            <span
+              class="
+                gate
+                ${
+                  gates[key]
+                    ? "on"
+                    : ""
+                }
+              "
+            >
+              ${escapeHtml(label)}
+              ·
+              ${
+                gates[key]
+                  ? "ON"
+                  : "OFF"
+              }
+            </span>
+          `
+        )
+        .join("");
+
+      document.getElementById(
+        "tickCount"
+      ).textContent =
+        state.tick ?? 0;
+
+      const seconds =
+        state.heartbeat
+          ?.next_interval_seconds ?? 0;
+
+      document.getElementById(
+        "heartbeat"
+      ).textContent =
+        seconds >= 60
+
+        ? Math.round(
+            seconds / 60
+          ) + " min"
+
+        : seconds + " s";
+
+      document.getElementById(
+        "behaviorMode"
+      ).textContent =
+        intent
+          .behavior_override_allowed
+
+        ? "已授权"
+
+        : "只观察";
+    }
+
+    async function loadState() {
+      try {
+        const response =
+          await fetch(
+            "/state",
+            {
+              cache: "no-store"
+            }
+          );
+
+        if (!response.ok) {
+          throw new Error(
+            "读取状态失败 · HTTP "
+            + response.status
+          );
+        }
+
+        const state =
+          await response.json();
+
+        render(state);
+
+      } catch (error) {
+        document.getElementById(
+          "statusText"
+        ).textContent =
+          "读取失败";
+
+        const errorBox =
+          document.getElementById(
+            "errorBox"
+          );
+
+        errorBox.textContent =
+          error.message ||
+          String(error);
+
+        errorBox.style.display =
+          "block";
+      }
+    }
+
+    loadState();
+
+    setInterval(
+      loadState,
+      10000
+    );
+  </script>
+
+</body>
+</html>
