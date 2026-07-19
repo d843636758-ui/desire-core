@@ -540,6 +540,7 @@ def _source_pulse(
         "ob": 0.12,
         "emotion": 0.12,
         "eventide": 0.12,
+        "phosphene": 0.14,
     }.get(
         source,
         0.10,
@@ -1296,6 +1297,7 @@ def add_experience(
         "ob",
         "emotion",
         "eventide",
+        "phosphene",
     }:
         raise ValueError(
             f"unknown source: {source}"
