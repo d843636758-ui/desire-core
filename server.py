@@ -45,6 +45,11 @@ DATA_DIR = Path(
     os.getenv("DATA_DIR", "/data")
 )
 
+PUBLIC_HOST = os.getenv(
+    "DESIRE_PUBLIC_HOST",
+    "desire.xunzhou.space",
+).strip()
+
 STORE = JSONStore(
     DATA_DIR / "desire_state.json"
 )
@@ -2782,15 +2787,15 @@ def state_view(
 MCP_TRANSPORT_SECURITY = TransportSecuritySettings(
     enable_dns_rebinding_protection=True,
     allowed_hosts=[
-        "desirecore.zeabur.app",
-        "desirecore.zeabur.app:*",
+        PUBLIC_HOST,
+        f"{PUBLIC_HOST}:*",
         "127.0.0.1:*",
         "localhost:*",
         "[::1]:*",
     ],
     allowed_origins=[
-        "https://desirecore.zeabur.app",
-        "https://desirecore.zeabur.app:*",
+        f"https://{PUBLIC_HOST}",
+        f"https://{PUBLIC_HOST}:*",
         "https://chatgpt.com",
         "https://chatgpt.com:*",
         "https://www.chatgpt.com",
