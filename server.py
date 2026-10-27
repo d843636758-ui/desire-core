@@ -50,6 +50,22 @@ PUBLIC_HOST = os.getenv(
     "desire.xunzhou.space",
 ).strip()
 
+LEGACY_PUBLIC_HOST = os.getenv(
+    "DESIRE_LEGACY_PUBLIC_HOST",
+    "desirecore.zeabur.app",
+).strip()
+
+PUBLIC_HOSTS = list(
+    dict.fromkeys(
+        host
+        for host in (
+            PUBLIC_HOST,
+            LEGACY_PUBLIC_HOST,
+        )
+        if host
+    )
+)
+
 STORE = JSONStore(
     DATA_DIR / "desire_state.json"
 )
@@ -2787,15 +2803,25 @@ def state_view(
 MCP_TRANSPORT_SECURITY = TransportSecuritySettings(
     enable_dns_rebinding_protection=True,
     allowed_hosts=[
-        PUBLIC_HOST,
-        f"{PUBLIC_HOST}:*",
+        value
+        for host in PUBLIC_HOSTS
+        for value in (
+            host,
+            f"{host}:*",
+        )
+    ] + [
         "127.0.0.1:*",
         "localhost:*",
         "[::1]:*",
     ],
     allowed_origins=[
-        f"https://{PUBLIC_HOST}",
-        f"https://{PUBLIC_HOST}:*",
+        value
+        for host in PUBLIC_HOSTS
+        for value in (
+            f"https://{host}",
+            f"https://{host}:*",
+        )
+    ] + [
         "https://chatgpt.com",
         "https://chatgpt.com:*",
         "https://www.chatgpt.com",
